@@ -10,3 +10,15 @@ function loadNotes() {
             callback(promisse, snapshot.val());
         });
 }
+
+function removeNote(noteId) {
+    let promisse = db.ref(`/notes/${window.user}/${noteId}`);
+    promisse.remove()
+        .then(function () {
+            console.log("Remove succeeded.");
+            loadNotes();
+        })
+        .catch(function (error) {
+            alert("Remove failed: " + error.message);
+        });
+}

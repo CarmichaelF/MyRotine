@@ -1,14 +1,14 @@
 function signUp(txtEmail, txtPassword) {
     const promise = firebase.auth().createUserWithEmailAndPassword(txtEmail.value, txtPassword.value);
     promise.catch((e) => {
-        console.log(e.message);
+        alert(e.message);
     });
 }
 
 function loginWithEmail(txtEmail, txtPassword) {
     const promise = firebase.auth().signInWithEmailAndPassword(txtEmail.value, txtPassword.value);
     promise.catch((e) => {
-        console.log(e.message)
+        alert(e.message);
     });
 }
 

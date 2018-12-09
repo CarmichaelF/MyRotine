@@ -12,16 +12,18 @@ const inputName = document.getElementById('inputName');
 const inputCategory = document.getElementById('inputCategory');
 const inputAddress = document.getElementById('inputAddress');
 const inputNote = document.getElementById('inputNote');
-const date = new Date();
+let date = new Date();
 const notesDiv = document.getElementById('notes');
 let notes = [];
 
 btnLogin.addEventListener('click', () => {
     loginWithEmail(txtEmail, txtPassword);
+    notesDiv.innerHTML = '';
 });
 
 btnSignUp.addEventListener('click', () => {
     signUp(txtEmail, txtPassword);
+
 });
 
 btnSignOut.addEventListener('click', () => {
@@ -39,7 +41,8 @@ function addNote() {
         day: date.getDate(),
         month: date.getMonth() + 1,
         year: date.getFullYear(),
-        category: inputCategory.children[inputCategory.selectedIndex].textContent
+        category: inputCategory.children[inputCategory.selectedIndex].textContent,
+        noteId: notes.length
     }
     notes.push(note);
     addHTML();
@@ -55,7 +58,7 @@ function addHTML() {
             <div class="card">
                 <div class="card-header">
                         ${note.name}
-                        <button type="button" class="close" aria-label="Close">
+                        <button onclick= "removeNote(${note.noteId})" type="button" class="close" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -72,16 +75,19 @@ function addHTML() {
     </div>`
     });
     notesDiv.innerHTML = noteHTML;
+    inputName.value = '';
+    inputCategory.value = 0;
+    inputNote.value = '';
+
 }
 
 function callback(promisse, snapshot) {
     promisse.then(() => {
         notes = [];
-        if(snapshot != null){
+        if (snapshot != null) {
             notes = snapshot;
-            notesDiv.innerHTML = '';
         }
-        if(notes != null){
+        if (notes != null) {
             addHTML();
         }
     });
