@@ -14,7 +14,7 @@ const inputAddress = document.getElementById('inputAddress');
 const inputNote = document.getElementById('inputNote');
 let date = new Date();
 const notesDiv = document.getElementById('notes');
-let notes = [];
+let notes = new Array();
 
 btnLogin.addEventListener('click', () => {
     loginWithEmail(txtEmail, txtPassword);
@@ -32,9 +32,11 @@ btnSignOut.addEventListener('click', () => {
 
 btnSaveNote.addEventListener('click', () => {
     addNote();
+    writeUserData(notes);
 });
 
 function addNote() {
+    date = new Date();
     note = {
         name: inputName.value,
         body: inputNote.value,
@@ -46,7 +48,6 @@ function addNote() {
     }
     notes.push(note);
     addHTML();
-    writeUserData(notes);
 }
 
 function addHTML() {
@@ -83,7 +84,7 @@ function addHTML() {
 
 function callback(promisse, snapshot) {
     promisse.then(() => {
-        notes = [];
+        notes = new Array();
         if (snapshot != null) {
             notes = snapshot;
         }

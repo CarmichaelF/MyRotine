@@ -5,11 +5,24 @@ function writeUserData(notes) {
 }
 
 function loadNotes() {
-    let promisse = db.ref(`/notes/${window.user}`).once('value')
-        .then(function (snapshot) {
-            callback(promisse, snapshot.val());
+    let promisse = db.ref(`/notes/${window.user}`).once('value');
+        promisse.then(function (snapshot) {
+            callback(promisse, snapshotToArray(snapshot));
         });
 }
+
+function snapshotToArray(snapshot) {
+    var returnArr = [];
+
+    snapshot.forEach(function(childSnapshot) {
+        var item = childSnapshot.val();
+        item.key = childSnapshot.key;
+
+        returnArr.push(item);
+    });
+
+    return returnArr;
+};
 
 function removeNote(noteId) {
     let promisse = db.ref(`/notes/${window.user}/${noteId}`);
